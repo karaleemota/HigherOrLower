@@ -9,7 +9,7 @@ window.geometry("1080x720") #make dimensions of gui
 window.title("Higher or Lower")
 #create text boxes that hold the float value of the probs of choosing a higher or lower card
 higherNumText = tk.StringVar() #we must use StringVars so we can edit the text later
-higherNumText.set("0")
+higherNumText.set("")
 lowerNumText = tk.StringVar()
 lowerNumText.set("")
 higherNumTextBox = tk.Label(window, textvariable=higherNumText, fg="blue", font="Verdana").place(x=290, y=450)
