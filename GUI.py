@@ -7,6 +7,13 @@ import tkinter as tk
 window = tk.Tk()
 window.geometry("1080x720") #make dimensions of gui
 window.title("Higher or Lower")
+#create text boxes that hold the float value of the probs of choosing a higher or lower card
+higherNumText = tk.StringVar() #we must use StringVars so we can edit the text later
+higherNumText.set("0")
+lowerNumText = tk.StringVar()
+lowerNumText.set("")
+higherNumTextBox = tk.Label(window, textvariable=higherNumText, fg="blue", font="Verdana").place(x=290, y=450)
+lowerNumTextBox = tk.Label(window, textvariable=lowerNumText, fg="blue", font="Verdana").place(x=290, y=500)
 
 #function that creates deck, iterates thru deck and assigns each card a button/image
 def createDeck():
@@ -37,10 +44,20 @@ def createDeck():
             y=0
     return deck
 
-def cardClickedEvent(deck_, card_):#this event should happen when a card is clicked
+#function that modifies the given text box with the given value. box is a tkinter Label that holds "higher" or "lower" value
+def updateGUIBox(box_, newVal_):
+    box_.set(str(newVal_))
+
+#function that creates the "prob of higher text" that doesn't change
+def createStaticTextBoxes():
+    higherBox = tk.Label(window, text="Probability of Higher Next: ", fg="blue", font="Verdana").place(x=50, y=450)
+    lowerBox = tk.Label(window, text="Probability of Lower  Next: ", fg="blue", font="Verdana").place(x=50, y=500)
+
+# this event should happen when a card is clicked
+def cardClickedEvent(deck_, card_):
     deck.removeCard(card_.suit, card_.value)
-    probsOfHigher(card_,deck_)
-    probsOfLower(card_,deck_)
+    updateGUIBox(higherNumText, probsOfHigher(card_,deck_))
+    updateGUIBox(lowerNumText, probsOfLower(card_,deck_))
 
 #function that takes the suit name and vallue of card to find the right image name to use
 def getImage(suit_, value_):
@@ -145,6 +162,8 @@ class Deck:
         self.cards = [] # make an array of cards
         self.createDeck() #create the deck of cards
 
+#create the static text that displays on screen
+createStaticTextBoxes()
 #call create deck to make the cards appear on the screen
 print("create deck")
 deck = createDeck()
